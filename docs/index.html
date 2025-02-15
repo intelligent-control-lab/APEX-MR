@@ -230,34 +230,14 @@
             <h2 class="title is-2">Abstract</h2>
             <div class="content has-text-justified">
               <p>
-                This paper presents the Safe Protective and Assistive Robot Kit
-                (SPARK), a comprehensive toolbox designed to ensure safety in
-                humanoid autonomy and teleoperation.
-                Humanoid robots have gained significant popularity due to their
-                versatility in interacting with complex environments.
-                It is critical to ensure that no harm is caused during those
-                interactions since unsafe behaviors can pose serious risks to
-                the environment and human safety, considering humanoids'
-                physical capabilities.
-                Therefore, robust safety measures are essential in general
-                humanoid robotics research and deployment.
-                The inherently complex physical structures of humanoid robots
-                further complicate the design of task-specific safety solutions.
-                To alleviate this challenge, we introduce SPARK, a modular
-                toolbox that integrates state-of-the-art safe control algorithms
-                such as
-                Safe Set Algorithm (SSA) into a generic robot control framework.
-                SPARK enables users to configure safety behaviors across
-                multiple dimensions, such as defining safety criteria and
-                sensitivity levels, allowing for optimized trade-offs between
-                safety and performance.
-                The toolbox is natively compatible with the Unitree G1 humanoid
-                robot, utilizing Apple Vision Pro (AVP) for perception, while
-                also offering interfaces for seamless customization with
-                alternative hardware setups.
-                By integrating SPARK as a fail-safe mechanism, users can
-                significantly improve the safety of their existing humanoid
-                systems.
+                Compared to a single-robot workstation, a multi-robot system offers several advantages: 1) it expands the system’s workspace, 2) improves task efficiency, and more importantly, 3) enables robots to achieve significantly more complex and dexterous tasks, such as cooperative assembly. 
+                However, coordinating the tasks and motions of multiple robots is challenging due to issues, e.g., system uncertainty, task efficiency, algorithm scalability, and safety concerns. 
+                To address these challenges, this paper studies multi-robot coordination and proposes APEX-MR, an asynchronous planning and execution framework designed to safely and efficiently coordinate multiple robots to achieve cooperative assembly, e.g., LEGO assembly. 
+                In particular, APEX-MR provides a systematic approach to post-process multi-robot tasks and motion plans to enable robust asynchronous execution under uncertainty. 
+                Experimental results demonstrate that APEX-MR can significantly speed up the execution time of many long-horizon LEGO assembly tasks by 48% compared to sequential planning and 36% compared to synchronous planning on average. 
+                To further demonstrate the performance, we deploy APEX-MR to a dual-arm system to perform physical LEGO assembly.
+                To our knowledge, this is the first robotic system capable of performing customized LEGO assembly using commercial LEGO bricks. 
+                The experiment results demonstrate that the dual-arm system, with APEX-MR, can safely coordinate robot motions, efficiently collaborate, and construct complex LEGO structures.
               </p>
             </div>
 
