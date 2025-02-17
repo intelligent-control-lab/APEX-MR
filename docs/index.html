@@ -73,13 +73,28 @@
         gap: 20px; /* Space between rows and columns */
         justify-items: center; /* Center the items horizontally */
         align-items: center; /* Center the items vertically */
-        max-width: 80%;
       }
       
       .image-grid img {
-          max-width: 80%;
+          max-width: 100%;
           height: auto; /* Maintain aspect ratio */
           border-radius: 10px; /* Optional: Add rounded corners */
+      }
+
+      .image-grid iframe {
+          position: relative;
+          width: 100%;
+          padding-top: 56.25%; /* 16:9 aspect ratio (9 / 16 = 0.5625 => 56.25%) */
+          border-radius: 10px;
+          border: 1px solid #bbb;
+      }
+
+      .image-grid iframe iframe {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
       }
       
     </style>
@@ -145,9 +160,15 @@
       </div>
     </section> -->
     <div class="image-grid">
-      <video autoplay loop muted playsinline
-          src="./resources/examples/no_cloth_static_arm.mp4"
-          style="border: 1px solid #bbb; border-radius: 10px; width: 100%;"></video>
+      <iframe 
+        width="100%" 
+        height="auto" 
+        src="https://www.youtube.com/embed/vIzeQ31YbCM" 
+        frameborder="0" 
+        style="border: 1px solid #bbb; border-radius: 10px;" 
+        allow="autoplay; fullscreen" 
+        allowfullscreen>
+    </iframe>
       <video autoplay loop muted playsinline
           src="./resources/examples/elbow_back.mp4"
           style="border: 1px solid #bbb; border-radius: 10px; width: 100%;"></video>
