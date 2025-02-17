@@ -84,16 +84,15 @@
       .image-grid iframe {
           position: relative;
           width: 100%;
-          padding-top: 56.25%; /* 16:9 aspect ratio (9 / 16 = 0.5625 => 56.25%) */
+          height: auto; /* Maintain aspect ratio */
           border-radius: 10px;
-          border: 1px solid #bbb;
+          /* border: 1px solid #bbb; */
       }
 
-      .image-grid iframe, .image-grid video {
-        width: 100%; /* ensure they take the full width of the grid cell */
-        height: 100%; /* this helps ensure proper aspect ratio scaling */
-        border-radius: 10px; /* rounded corners for consistency */
-        border: 1px solid #bbb; /* border around the media elements */
+     .image-grid video {
+          max-width: 100%;
+          height: auto; /* Maintain aspect ratio */
+          border-radius: 10px; /* Optional: Add rounded corners */
     }
       
     </style>
