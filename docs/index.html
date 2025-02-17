@@ -89,13 +89,12 @@
           border: 1px solid #bbb;
       }
 
-      .image-grid iframe iframe {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-      }
+      .image-grid iframe, .image-grid video {
+        width: 100%; /* ensure they take the full width of the grid cell */
+        height: 100%; /* this helps ensure proper aspect ratio scaling */
+        border-radius: 10px; /* rounded corners for consistency */
+        border: 1px solid #bbb; /* border around the media elements */
+    }
       
     </style>
 
