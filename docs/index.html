@@ -67,10 +67,26 @@
         width: 100%;
       }
 
-      .image-grid {
+      .image-grid2 {
         display: grid;
         grid-template-columns: repeat(2, 1fr); /* Two columns */
-        gap: 10px; /* Space between rows and columns */
+        gap: 5px; /* Space between rows and columns */
+        justify-content: center;
+        align-items: center;
+      }
+      
+      .image-grid2 img {
+          width: 100%;
+          height: auto; /* Maintain aspect ratio */
+          border-radius: 10px; /* Optional: Add rounded corners */
+          object-fit: contain;
+          aspect-ratio: 16 / 9;
+      }
+
+      .image-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* Two columns */
+        gap: 5px; /* Space between rows and columns */
         justify-content: center;
         align-items: center;
       }
@@ -78,7 +94,7 @@
       .image-grid img {
           max-width: 100%;
           height: 100%; /* Maintain aspect ratio */
-          border-radius: 10px; /* Optional: Add rounded corners */
+          border-radius: 5px; /* Optional: Add rounded corners */
       }
 
       .image-grid iframe {
@@ -87,43 +103,13 @@
         aspect-ratio: 16 / 9;
         border: 1px
         solid #bbb;
-        border-radius: 10px;
+        border-radius: 5px;
         object-fit: contain;
       }
-
 
     </style>
 
   </head>
-
-
-
-
-  <div class="container">
-    <!-- Paper video. -->
-    <div id="method_video" class="columns is-centered has-text-centered">
-      <div class="column is-two-thirds">
-          <div class="image-grid">
-              <iframe src="https://drive.google.com/file/d/1SmA5nLjoJxbhoJsbI8TaXxLSKXDoCC0K/preview" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-            <!-- Video 1 -->
-            <iframe src="https://drive.google.com/file/d/1et-hU7SzaIf6mlXqQXDN0bpVcpkR_38I/preview" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-            
-            <!-- Video 2 -->
-            <iframe src="https://drive.google.com/file/d/1SmA5nLjoJxbhoJsbI8TaXxLSKXDoCC0K/preview" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        
-            <!-- Video 3 -->
-              <iframe src="https://drive.google.com/file/d/1BHoayBhxJrL3KWEyR05LS12DC3l9hWvL/preview" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        
-            <!-- Add more videos as needed -->
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-
-
-
 
 
   <body>
@@ -159,9 +145,7 @@
                       <span>Paper</span>
                     </a>
                   </span>
-
                 </div>
-
               </div>
             </div>
           </div>
@@ -170,24 +154,21 @@
     </section>
 
 
-    
-
     <div class="container">
       <!-- Paper video. -->
       <div id="method_video" class="columns is-centered has-text-centered">
         <div class="column is-two-thirds">
-          <div class="video-container">
-            <iframe
-              src="https://drive.google.com/file/d/1SmA5nLjoJxbhoJsbI8TaXxLSKXDoCC0K/preview"
-              title="YouTube video player"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen></iframe>
+            <div class="image-grid">
+              <iframe src="https://drive.google.com/file/d/1SmA5nLjoJxbhoJsbI8TaXxLSKXDoCC0K/preview" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+              <iframe src="https://drive.google.com/file/d/1BHoayBhxJrL3KWEyR05LS12DC3l9hWvL/preview" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+              
+              <iframe src="https://drive.google.com/file/d/11yynXeIC8CmXJl5dVsknAR6IUrRLyApP/preview" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
           </div>
         </div>
       </div>
-      <!--/ Paper video. -->
     </div>
+  
 
     <section class="section">
       <div class="container">
@@ -207,90 +188,46 @@
                 The experiment results demonstrate that the dual-arm system, with APEX-MR, can safely coordinate robot motions, efficiently collaborate, and construct complex LEGO structures.
               </p>
             </div>
-
-            <!-- <video autoplay loop muted playsinline
-              src="./resources/front_video.mp4"
-              style="border: 0px solid #bbb; border-radius: 1px; width: 100%;">
-            </video>
-
-            <h2 class="title is-6">Humanoid tasks safeguarded by SPARK. Nominal
-              actions are perturbed (SSA on) when necessary to ensure
-              safety.</h2> -->
-
           </div>
         </div>
       </div>
-      <!--/ Abstract. -->
-
     </section>
-
-    
 
 
     <section class="section">
       <div class="container">
         <div class="columns is-centered">
           <div class="column is-full-width">
-            
-            <!-- actual content -->
-
-            <h2 class="title is-2" style="text-align: center;">
-              Why bimanual/multi-robot manipulation?
-            </h2>
-            <tr>
-              <td>
-
-                <div class="image-grid">
-                  <video autoplay loop muted playsinline
-                    src="./resources/examples/head.mp4"
-                    style="border: 1px solid #bbb; border-radius: 10px; width: 100%;"></video>
-                  <video autoplay loop muted playsinline
-                    src="./resources/examples/no_cloth_static_arm.mp4"
-                    style="border: 1px solid #bbb; border-radius: 10px; width: 100%;"></video>
-                  <video autoplay loop muted playsinline
-                    src="./resources/examples/elbow_back.mp4"
-                    style="border: 1px solid #bbb; border-radius: 10px; width: 100%;"></video>
-                  <video autoplay loop muted playsinline
-                    src="./resources/examples/wrist_side.mp4"
-                    style="border: 1px solid #bbb; border-radius: 10px; width: 100%;"></video>
-                </div>
-
-              </td>
-            </tr>
-            
-            <!--  -->
-
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="columns is-centered">
-          <div class="column is-full-width">
-            
-            <!-- actual content -->
-
             <h2 class="title is-2" style="text-align: center;">
               Challenges
             </h2>
+            
             <tr>
               <td>
-
-                <div class="image-grid">
-                  <!-- <video autoplay loop muted playsinline
-                    src="./resources/examples/dynamic-2.mp4"
-                    style="border: 1px solid #bbb; border-radius: 10px; width: 100%;"></video> -->
-                  <video autoplay loop muted playsinline
-                    src="./resources/examples/dynamic-3.mp4"
-                    style="border: 1px solid #bbb; border-radius: 10px; width: 100%;"></video>
-                  <video autoplay loop muted playsinline
-                    src="./resources/examples/dynamic-4.mp4"
-                    style="border: 1px solid #bbb; border-radius: 10px; width: 100%;"></video>
-                  <!-- <video autoplay loop muted playsinline
-                    src="./resources/examples/dynamic-5.mp4"
-                    style="border: 1px solid #bbb; border-radius: 10px; width: 100%;"></video> -->
+                <div class="container">
+                  <!-- Paper video. -->
+                  <div id="method_video" class="columns is-centered has-text-centered">
+                    <div class="column is-two-thirds">
+                      <div class="image-grid2">
+                        <figure>
+                          <img src="./resources/safety.gif" />
+                          <figcaption>Safety guarantee during collaboration.</figcaption>
+                        </figure>
+                        <figure>
+                          <img src="./resources/scalability.gif" />
+                          <figcaption>Scalability due to extremely long planning horizon. </figcaption>
+                        </figure>
+                        <figure>
+                          <img src="./resources/uncertainty.png" />
+                          <figcaption>Uncertainty due to different manipulation policies and real-world contingencies.</figcaption>
+                        </figure>
+                        <figure>
+                          <img src="./resources/efficiency.gif"/>
+                          <figcaption>Improved efficiency is desired by facilitating bimanual manipulation.</figcaption>
+                        </figure>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
               </td>
@@ -303,33 +240,60 @@
       </div>
     </section>
 
+
     <section class="section">
       <div class="container">
-        <div class="columns is-centered">
-          <div class="column is-full-width">
-            
-            <!-- actual content -->
-
-            <h2 class="title is-2" style="text-align: center;">
-              APEX-MR Overview
-            </h2>
-            <br>
-            <center>
-              <img src="./resources/apex-mr_system.png" alt="Overview" style="width:100%"/>
-            </center>
-
-            <!-- <tr>
-              <td>
-                  <img src="./resources/Spark System.png" alt="Overview" />
-              </td>
-            </tr> -->
-            
-            <!--  -->
-
+        <div id="method_video" class="columns is-centered has-text-centered">
+                <div class="column is-two-thirds">
+                  <h2 class="title is-2" style="text-align: center;">
+                    APEX-MR Overview
+                  </h2>
+                  <br>
+                    <img src="./resources/apex-mr_system.png" alt="Overview" style="width:100%"/>
+                </div>
           </div>
-        </div>
       </div>
     </section>
+
+
+    <section class="section">
+      <div class="container">
+        <div id="method_video" class="columns is-centered has-text-centered">
+                <div class="column is-two-thirds">
+                  <h2 class="title is-2" style="text-align: center;">
+                    Comparisons:</h2> 
+                    <h3 class="title is-3" style="text-align: center;">
+                      Efficient, Seamless, and Robust Bimanual Manipulation
+                    </h3>
+                  <br>
+                    <img src="./resources/apex-mr_system.png" alt="Overview" style="width:100%"/>
+                </div>
+          </div>
+      </div>
+    </section>
+
+
+
+    <section class="section">
+      <div class="container">
+        <div id="method_video" class="columns is-centered has-text-centered">
+                <div class="column is-two-thirds">
+                  <h2 class="title is-2" style="text-align: center;">
+                    Robot Demos: 
+                  </h2>
+                  <h3 class="title is-3" style="text-align: center;">
+                      Cooperative Assembly of Customized Lego Structures
+                  </h3>
+                  <br>
+                    <img src="./resources/apex-mr_system.png" alt="Overview" style="width:100%"/>
+                </div>
+          </div>
+      </div>
+    </section>
+
+
+
+
 
     <section class="section">
       <div class="columns is-centered">
@@ -337,36 +301,92 @@
           <div class="is-vcentered interpolation-panel">
             <h2 class="title is-2" style="text-align: center;">Related Work</h2>
             <div class="content is-centered has-text-centered">
-              This work is part of our research on physics-aware robotic assembly.
-              Please explore our other contributions below.
+              This work is part of our research on Generative Assembly via Bimanual Manipulation.
+              Please explore our other works below.
             </div>
             <div class="container">
               <div class="columns is-vcentered">
                 <!-- Image Column -->
                 <div class="column is-4">
                   <figure class="image">
-                    <img src="./resources/kai2025sia.png" alt="RMA Image">
+                    <img src="./resources/PAasp.gif" alt="RMA Image">
                   </figure>
                 </div>
 
                 <!-- Text Column -->
                 <div class="column is-8">
-                  <h2 class="title is-4"> Safe Control of Quadruped in Varying
-                    Dynamics via Safety Index Adaptation</h2>
+                  <h2 class="title is-4"> Physics-Aware Combinatorial Assembly Sequence Planning using Data-free Action Masking</h2>
                   <p>
-                    Kai S. Yun, Rui Chen, Chase Dunaway, John M. Dolan, Changliu
-                    Liu<br />
-                    Submitted to ICRA 2025
+                    Ruixuan Liu, Alan Chen, Weiye Zhao, Changliu Liu
+                    <br />
+                    Under review at IEEE RA-L
                   </p>
                   <p>
-                    <a href="https://arxiv.org/pdf/2409.09882"
-                      class="button is-link">PDF</a>
+                    <a href="https://arxiv.org/abs/2408.10162"
+                      class="button is-link">Paper</a>
                     <!--                <a href="https://www.youtube.com/watch?v=nBy1piJrq1A" class="button is-link">Video</a>-->
                     <!--                <a href="https://ashish-kmr.github.io/rma-legged-robots/" class="button is-link">Project Page</a>-->
                   </p>
                 </div>
               </div>
             </div>
+
+            <div class="container">
+              <div class="columns is-vcentered">
+                <!-- Image Column -->
+                <div class="column is-4">
+                  <figure class="image">
+                    <img src="./resources/stablelego.png" alt="RMA Image">
+                  </figure>
+                </div>
+
+                <!-- Text Column -->
+                <div class="column is-8">
+                  <h2 class="title is-4"> StableLego: Stability Analysis of Block Stacking Assembly</h2>
+                  <p>
+                    Ruixuan Liu, Kangle Deng, Ziwei Wang, Changliu Liu
+                    <br />
+                    IEEE RA-L, 2024
+                  </p>
+                  <p>
+                    <a href="https://ieeexplore.ieee.org/document/10556686"
+                      class="button is-link">Paper</a>
+                    <!--                <a href="https://www.youtube.com/watch?v=nBy1piJrq1A" class="button is-link">Video</a>-->
+                    <!--                <a href="https://ashish-kmr.github.io/rma-legged-robots/" class="button is-link">Project Page</a>-->
+                  </p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="container">
+              <div class="columns is-vcentered">
+                <!-- Image Column -->
+                <div class="column is-4">
+                  <figure class="image">
+                    <img src="./resources/lego_manipulation.gif" alt="RMA Image">
+                  </figure>
+                </div>
+
+                <!-- Text Column -->
+                <div class="column is-8">
+                  <h2 class="title is-4"> A Lightweight and Transferable Design for Robust LEGO Manipulation</h2>
+                  <p>
+                    Ruixuan Liu, Yifan Sun, Changliu Liu
+                    <br />
+                    International Symposium on Flexible Automation (ISFA), 2024
+                  </p>
+                  <p>
+                    <a href="https://arxiv.org/abs/2309.02354"
+                      class="button is-link">Paper</a>
+                    <!--                <a href="https://www.youtube.com/watch?v=nBy1piJrq1A" class="button is-link">Video</a>-->
+                    <!--                <a href="https://ashish-kmr.github.io/rma-legged-robots/" class="button is-link">Project Page</a>-->
+                  </p>
+                </div>
+              </div>
+            </div>
+
+
           </div>
         </div>
       </div>
