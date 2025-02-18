@@ -67,13 +67,6 @@
         width: 100%;
       }
 
-      body {
-        display: flex;
-        justify-content: center; /* Centers horizontally */
-        align-items: center;     /* Centers vertically */
-        height: 100vh;           /* Makes the parent take up the full viewport height */
-        margin: 0;               /* Remove default margin */
-      }
 
       .image-grid {
         display: grid;
@@ -81,8 +74,7 @@
         gap: 20px; /* Space between rows and columns */
         justify-items: center; /* Center the items horizontally */
         align-items: center; /* Center the items vertically */
-        justify-content: center; /* Centers horizontally */
-        position: center;
+        position: relative;
         width: 600px;
       }
       
@@ -170,8 +162,6 @@
     </section> -->
     <div class="image-grid">
       <iframe 
-        width="100%" 
-        height="auto" 
         src="https://www.youtube.com/embed/vIzeQ31YbCM" 
         frameborder="0" 
         style="border: 1px solid #bbb; border-radius: 10px;" 
