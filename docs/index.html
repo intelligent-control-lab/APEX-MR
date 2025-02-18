@@ -67,6 +67,14 @@
         width: 100%;
       }
 
+      body {
+        display: flex;
+        justify-content: center; /* Centers horizontally */
+        align-items: center;     /* Centers vertically */
+        height: 100vh;           /* Makes the parent take up the full viewport height */
+        margin: 0;               /* Remove default margin */
+      }
+
       .image-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr); 
