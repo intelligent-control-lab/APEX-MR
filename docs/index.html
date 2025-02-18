@@ -83,6 +83,16 @@
           aspect-ratio: 16 / 9;
       }
 
+      .image-grid2 iframe {
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 16 / 9;
+        border: 1px
+        solid #bbb;
+        border-radius: 5px;
+        object-fit: contain;
+      }
+
       .image-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr); /* Two columns */
@@ -145,6 +155,17 @@
                       <span>Paper</span>
                     </a>
                   </span>
+
+                  <span class="link-block">
+                    <a href="https://www.youtube.com/watch?v=vIzeQ31YbCM"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fab fa-youtube" aria-hidden="true"></i>
+                      </span>
+                      <span>Video</span>
+                    </a>
+                  </span>
+
                 </div>
               </div>
             </div>
@@ -158,12 +179,12 @@
       <!-- Paper video. -->
       <div id="method_video" class="columns is-centered has-text-centered">
         <div class="column is-two-thirds">
-            <div class="image-grid">
-              <iframe src="https://drive.google.com/file/d/1SmA5nLjoJxbhoJsbI8TaXxLSKXDoCC0K/preview" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-
-              <iframe src="https://drive.google.com/file/d/1BHoayBhxJrL3KWEyR05LS12DC3l9hWvL/preview" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-              
-              <iframe src="https://drive.google.com/file/d/11yynXeIC8CmXJl5dVsknAR6IUrRLyApP/preview" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          <div class="video-container">
+            <iframe
+              src="https://drive.google.com/file/d/1SmA5nLjoJxbhoJsbI8TaXxLSKXDoCC0K/preview"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe>
           </div>
         </div>
       </div>
@@ -211,19 +232,19 @@
                       <div class="image-grid2">
                         <figure>
                           <img src="./resources/safety.gif" />
-                          <figcaption>Safety guarantee during collaboration.</figcaption>
+                          <figcaption> (a) How to ensure <b>safety</b> during collaboration?</figcaption>
                         </figure>
                         <figure>
                           <img src="./resources/scalability.gif" />
-                          <figcaption>Scalability due to extremely long planning horizon. </figcaption>
+                          <figcaption>(b) How to <b>scale</b> to large-scale/long-horizon tasks? </figcaption>
                         </figure>
                         <figure>
                           <img src="./resources/uncertainty.png" />
-                          <figcaption>Uncertainty due to different manipulation policies and real-world contingencies.</figcaption>
+                          <figcaption>(c) How to tolerate <b>uncertainty</b> for contingencies?</figcaption>
                         </figure>
                         <figure>
                           <img src="./resources/efficiency.gif"/>
-                          <figcaption>Improved efficiency is desired by facilitating bimanual manipulation.</figcaption>
+                          <figcaption>(d) How to improve <b>efficiency</b>?</figcaption>
                         </figure>
                       </div>
                     </div>
@@ -246,10 +267,12 @@
         <div id="method_video" class="columns is-centered has-text-centered">
                 <div class="column is-two-thirds">
                   <h2 class="title is-2" style="text-align: center;">
-                    APEX-MR Overview
+                    APEX-MR:
                   </h2>
-                  <br>
-                    <img src="./resources/apex-mr_system.png" alt="Overview" style="width:100%"/>
+                  <h3 class="title is-3" style="text-align: center;">
+                    An <b>Asynchronous</b> Planning and Execution Framework
+                  </h3>
+                  <img src="./resources/apex-mr_system.png" alt="Overview" style="width:100%"/>
                 </div>
           </div>
       </div>
@@ -265,8 +288,27 @@
                     <h3 class="title is-3" style="text-align: center;">
                       Efficient, Seamless, and Robust Bimanual Manipulation
                     </h3>
-                  <br>
-                    <img src="./resources/apex-mr_system.png" alt="Overview" style="width:100%"/>
+                    <div class="image-grid2">
+                      <figure>
+                        <iframe src="https://drive.google.com/file/d/1u7132a3emU13l3EHZIiVlJnl6mzDZuJV/preview" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <figcaption> (a) Sequential</figcaption>
+                      </figure>
+
+                      <figure>
+                        <iframe src="https://drive.google.com/file/d/1NAPNxyY0_UsJsEhN85bc0eb843psgTic/preview" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <figcaption> (b) Synchronized</figcaption>
+                      </figure>
+
+                      <figure>
+                        <iframe src="https://drive.google.com/file/d/1aOSHnXs5EG6kv_1norwOobEwQQOX0cSl/preview" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <figcaption> (c) Ours w/o shortcut</figcaption>
+                      </figure>
+
+                      <figure>
+                        <iframe src="https://drive.google.com/file/d/1LbR5bhEH-O4Fw1Se-az-maRtmmqgKakF/preview" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <figcaption> (d) Ours + shortcut</figcaption>
+                      </figure>
+                  </div>
                 </div>
           </div>
       </div>
@@ -285,7 +327,38 @@
                       Cooperative Assembly of Customized Lego Structures
                   </h3>
                   <br>
-                    <img src="./resources/apex-mr_system.png" alt="Overview" style="width:100%"/>
+                  <div class="image-grid">
+                    <figure>
+                      <iframe src="https://drive.google.com/file/d/1BHoayBhxJrL3KWEyR05LS12DC3l9hWvL/preview" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                      <figcaption> (a) Faucet</figcaption>
+                    </figure>
+
+                    <figure>
+                      <iframe src="https://drive.google.com/file/d/1XYp5jVe3B8ch4s2jBWBhoAZ_vdNv-2e7/preview" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                      <figcaption> (b) Vessel</figcaption>
+                    </figure>
+
+                    <figure>
+                      <iframe src="https://drive.google.com/file/d/11yynXeIC8CmXJl5dVsknAR6IUrRLyApP/preview" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                      <figcaption> (c) Guitar</figcaption>
+                    </figure>
+
+                    <figure>
+                      <iframe src="https://drive.google.com/file/d/1GktOl9cVa-bJWMYEt5C8Rs7ZKJ0gKY89/preview" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                      <figcaption> (d) R</figcaption>
+                    </figure>
+
+                    <figure>
+                      <iframe src="https://drive.google.com/file/d/1LEho5B2yNA3Zk37o4-D2iNdPARIqHOnv/preview" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                      <figcaption> (d) S</figcaption>
+                    </figure>
+
+                    <figure>
+                      <iframe src="https://drive.google.com/file/d/1P3QFMQiHtntTBmq7iXF43ruf7HqULmyX/preview" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                      <figcaption> (d) S</figcaption>
+                    </figure>
+                </div>
+
                 </div>
           </div>
       </div>
