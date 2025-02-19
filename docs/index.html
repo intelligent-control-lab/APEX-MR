@@ -281,13 +281,41 @@
                   </h2>
                   <h3 class="title is-3" style="text-align: center;">
                     An <b>Asynchronous</b> Planning and Execution Framework
-                  </h3>
+                  </h3><div class="content has-text-justified">
+                    <p>
+                      Given an assembly plan and the robot skill library (detailed below), APEX-MR distributes the tasks to different robots and generates a sequential task plan. 
+                      In particular, it formulates the task distribution as an integer-linear programming (ILP) to maximize efficiency.
+                      To enable seamless collaboration, APEX-MR extends the Temporal Plan Graph (TPG) to multiple robots.
+                      It post-processes the sequential task plan and generates an asynchronous execution plan.
+                      More importantly, the asynchronous execution plan accommodates execution delays and contingencies to ensure robust and safe bimanual manipulation under uncertainty.
+                      APEX-MR significantly improves task efficiency, scales to large-scale/long-horizon tasks, is robust against uncertainty, and ensures collaboration safety.
+                    </p>
+                    </div>
                   <img src="./resources/apex-mr_system.png" alt="Overview" style="width:100%"/>
                 </div>
           </div>
       </div>
     </section>
 
+    <section class="section">
+      <div class="container">
+        <div id="method_video" class="columns is-centered has-text-centered">
+                <div class="column is-two-thirds">
+                  <h2 class="title is-2" style="text-align: center;">
+                    Robot Skill Learning
+                  </h2>
+                  <div class="content has-text-justified">
+                  <p>Robots need different skills to perform different tasks, and we assume the required skills are pre-learned. 
+                  A skill can be a learned policy, a parameterized motion, or even a simple trajectory.
+                  APEX-MR selects appropriate skills from the library and coordinates the robots to accomplish the task as shown above.
+                  Specifically in Lego assembly, we learn the following robot skills.
+                  </p>
+                </div>
+                  <img src="./resources/skills.gif" alt="Overview" style="width:100%"/>
+                </div>
+          </div>
+      </div>
+    </section>
 
     <section class="section">
       <div class="container">
@@ -336,6 +364,11 @@
                   <h3 class="title is-3" style="text-align: center;">
                       Cooperative Assembly of Customized Lego Structures
                   </h3>
+                  <div class="content has-text-justified">
+                    <p>
+                      We deploy APEX-MR to a dual-industrial-arm system and demonstrate the <i>first</i> robotic system that can accomplish <b>customized</b>, <b>delicate</b> assemblies using <b>commercial</b> LEGO in REAL. All demo videos are 16x.
+                    </p>
+                  </div>
                   <div class="image-grid">
                     <figure>
                       <iframe src="https://drive.google.com/file/d/1BHoayBhxJrL3KWEyR05LS12DC3l9hWvL/preview" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
@@ -367,8 +400,6 @@
                       <figcaption> (d) S</figcaption>
                     </figure>
                 </div>
-                <br>
-                All demo videos are 16x.
                 </div>      
           </div>
       </div>
@@ -384,7 +415,7 @@
           <div class="is-vcentered interpolation-panel">
             <h2 class="title is-2" style="text-align: center;">Related Works</h2>
             <div class="content is-centered has-text-centered">
-              This work is part of our research on Generative Assembly via Bimanual Manipulation.
+              This work is part of our research on <a href="http://icontrol.ri.cmu.edu/research/lego.html">Generative Assembly via Bimanual Manipulation </a>.
               Please explore our other works below.
             </div>
             <div class="container">
