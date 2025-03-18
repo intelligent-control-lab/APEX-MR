@@ -324,28 +324,17 @@
                   <h2 class="title is-2" style="text-align: center;">
                     Comparisons:</h2> 
                     <h3 class="title is-3" style="text-align: center;">
-                      Efficient, Seamless, and Robust Bimanual Manipulation
-                    </h3>
-                    <div class="image-grid2">
-                      <figure>
-                        <iframe src="https://drive.google.com/file/d/1u7132a3emU13l3EHZIiVlJnl6mzDZuJV/preview" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                        <figcaption> (a) Sequential</figcaption>
-                      </figure>
-
-                      <figure>
-                        <iframe src="https://drive.google.com/file/d/1NAPNxyY0_UsJsEhN85bc0eb843psgTic/preview" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                        <figcaption> (b) Synchronized</figcaption>
-                      </figure>
-
-                      <figure>
-                        <iframe src="https://drive.google.com/file/d/1aOSHnXs5EG6kv_1norwOobEwQQOX0cSl/preview" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                        <figcaption> (c) Ours w/o shortcut</figcaption>
-                      </figure>
-
-                      <figure>
-                        <iframe src="https://drive.google.com/file/d/1LbR5bhEH-O4Fw1Se-az-maRtmmqgKakF/preview" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                        <figcaption> (d) Ours + shortcut</figcaption>
-                      </figure>
+                      Efficient and Seamless Bimanual Manipulation
+                    </h3><div class="content has-text-justified">
+                      <p>
+                        The TPG post-processing and shortcutting in APEX-MR significantly reduces makespan by 48% and wait time by 85% on average 
+                        compared to the initial sequential motion plan at the horizontal dashed line. 
+                        Compared to the synchronized motion plan, our asynchronous plans from APEX-MR are still consistently shorter and have less wait time.
+                        We show a comparison of the sequential, synchronous, and APEX-MR motion (with shortcut) plan in simulation below.
+                      </p>
+                      </div>
+                    <div>
+                      <img src="./resources/seq-v-sync-v-tpg.gif" alt="Overview" style="width:100%" />
                   </div>
                 </div>
           </div>
@@ -500,8 +489,10 @@
               </div>
             </div>
 
+            <!-- insert some empty space before-->
+            <div style="height: 50px;"></div>
             <div class="content is-centered has-text-centered">
-              This work is also part of our research on Multi-Robot Task and MOtion Planning. Here are some of our other related works
+              This work is also part of our research on Multi-Robot Task and Motion Planning. Here are some of our other related works below.
             </div>
 
             <div class="container">
