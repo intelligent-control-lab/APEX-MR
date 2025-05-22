@@ -1,0 +1,48 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      name: Check out the repo content
+
+    - name: Build Docker image
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        GUROBI_WLSACCESSID: ${{ secrets.GUROBI_WLSACCESSID }}
+        GUROBI_WLSSECRET: ${{ secrets.GUROBI_WLSSECRET }}
+        GUROBI_LICENSEID: ${{ secrets.GUROBI_LICENSEID }}
+      run: |
+        cd docker
+        docker build . --build-arg GITHUB_TOKEN=$GITHUB_TOKEN \
+          --build-arg GUROBI_WLSACCESSID=$GUROBI_WLSACCESSID \
+          --build-arg GUROBI_WLSSECRET=$GUROBI_WLSSECRET \
+          --build-arg GUROBI_LICENSEID=$GUROBI_LICENSEID \
+          -t apex_mr-image
+
+    - name: Check if lego assign works
+      run: |
+        timeout --signal=SIGINT 2m docker run --name apex_mr-container apex_mr-image -c "source /opt/ros/noetic/setup.bash && source /root/catkin_ws/devel/setup.bash && roslaunch apex_mr lego_assign.launch task:=cliff use_rviz:=false > output.txt 2>&1"
+        docker cp apex_mr-container:/root/catkin_ws/output.txt output.txt
+        docker rm apex_mr-container
+        if ! grep -q "Task Assignment is feasible" output.txt; then
+          echo "Task Assignment did not complete successfully"
+          exit 1
+        fi
+    - name: Check if lego planning works
+      run: |
+        timeout --signal=SIGINT 2m docker run --name apex_mr-container apex_mr-image -c "source /opt/ros/noetic/setup.bash && source /root/catkin_ws/devel/setup.bash && roslaunch apex_mr lego.launch task:=cliff benchmark:=true use_rviz:=false > output.txt 2>&1"
+        docker cp apex_mr-container:/root/catkin_ws/output.txt output.txt
+        docker rm apex_mr-container
+        if ! grep -q "Planning completed successfully" output.txt; then
+          echo "Planning did not complete successfully"
+          exit 1
+        fi
