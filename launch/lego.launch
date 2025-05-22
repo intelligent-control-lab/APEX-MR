@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Gazebo options -->
+    <arg name="ns" default="/"/>
+    <arg name="use_rviz" default="true"/>
+    <arg name="task" default="tower"/>
+    <arg name="mfi" default="false" />
+    <arg name="async" default="false" />
+    <arg name="load_tpg" default="false" />
+    <arg name="load_adg" default="false" />
+    <arg name="random_shortcut" default="true" />
+    <arg name="planning_time_limit" default="5.0" />
+    <arg name="adg_shortcut_time" default="1.0" />
+    <arg name="sync_shortcut_time" default="0.1" />
+    <arg name="tight_shortcut" default="true" />
+    <arg name="forward_doubleloop" default="false" />
+    <arg name="backward_doubleloop" default="false" />
+    <arg name="forward_singleloop" default="true" />
+    <arg name="subset_shortcut" default="false" />
+    <arg name="subset_prob" default="0.4" />
+    <arg name="progress_file" default="$(find apex_mr)/outputs/lego/$(arg task)/progress.csv" />
+    <arg name="seed" default="1" />
+    <arg name="vmax" default="1.0" />
+    <arg name="planner" default="RRTConnect" />
+    <arg name="benchmark" default="false"/>
+    <arg name="fake_move" default="true"/>
+    <arg name="start_task_idx" default="1" />
+    <arg name="joint_state_thresh" default="0.1" />
+    <arg name="print_debug" default="false" />
+    <arg name="gdb" default="false" />
+    <arg name="parallel" default="true" />
+    <arg name="sync_plan" default="false" />
+    <arg name="sync_exec" default="false" />
+
+    <!-- Workaround on wsl for opengl rendering issue -->
+    <env name="LIBGL_ALWAYS_SOFTWARE" value="1"/>
+
+    <!-- Start the robot state publisher, simulation, and controler -->
+    <!-- <include file="$(find dual_gp4_moveit_config)/launch/demo_gazebo.launch">
+    </include> -->
+
+    <group ns="$(arg ns)">
+        <!-- <include file="$(find dual_gp4_moveit_config)/launch/demo_gazebo.launch"/> -->
+        <include file="$(find dual_gp4_moveit_config)/launch/demo.launch">
+            <arg name="use_rviz" value="$(arg use_rviz)" />
+        </include>
+
+        <!-- Run the main MoveIt executable with trajectory execution -->
+        <!-- <include file="$(find dual_gp4_moveit_config)/launch/move_group.launch">
+            <arg name="allow_trajectory_execution" value="false" />
+            <arg name="moveit_controller_manager" value="fake" />
+            <arg name="info" value="true" />
+            <arg name="pipeline" value="ompl" />
+            <arg name="load_robot_description" value="true" />
+        </include> -->
+
+        <!-- Start moveit_rviz with the motion planning plugin -->
+        <!-- <include file="$(find dual_gp4_moveit_config)/launch/moveit_rviz.launch">
+            <arg name="rviz_config" value="$(find dual_gp4_moveit_config)/launch/moveit.rviz" />
+        </include> -->
+
+        <!-- Start the planning node -->
+        
+        
+        <param name="planning_plugin" value="ompl_interface/OMPLPlanner"/>
+        <param name="request_adapters" value="default_planner_request_adapters/AddTimeParameterization"/>
+        <rosparam command="load" file="$(find dual_gp4_moveit_config)/config/ompl_planning.yaml" />
+        <param name="/move_group/planning_pipelines/ompl/planner_configs/RRTConnect/seed" value="$(arg seed)" />
+        <node launch-prefix="$(eval 'xterm -e gdb --args' if arg ('gdb') else '')"
+                 name="lego_node" pkg="apex_mr" type="lego_node" output="screen" required="true">
+            <param name="planner_type" value="$(arg planner)"/>
+            <param name="planning_time_limit" value="$(arg planning_time_limit)"/>
+            <param name="fullorder_targets_filename" value="$(find apex_mr)/config/lego_tasks/steps/$(arg task)_steps.csv" />
+            <param name="config_fname" value="$(find apex_mr)/config/lego_tasks/user_config.json"/>
+            <param name="task_fname" value="$(find apex_mr)/config/lego_tasks/steps/$(arg task)_seq.json" />
+            <param name="task_name" value="$(arg task)" />
+            <param name="root_pwd" value="$(find apex_mr)"/>
+            <param name="output_dir" value="$(find apex_mr)/outputs/lego/$(arg task)"/>
+            <param name="group_name_0" value="left_arm" />
+            <param name="group_name_1" value="right_arm" />
+            <param name="mfi" value="$(arg mfi)" />
+            <param name="async" value="$(arg async)" />
+            <param name="load_tpg" value="$(arg load_tpg)" />
+            <param name="load_adg" value="$(arg load_adg)" />
+            <param name="adg_shortcut_time" value="$(arg adg_shortcut_time)" />
+            <param name="sync_shortcut_time" value="$(arg sync_shortcut_time)" />
+            <param name="random_shortcut" value="$(arg random_shortcut)" />
+            <param name="tight_shortcut" value="$(arg tight_shortcut)" />
+            <param name="subset_shortcut" value="$(arg subset_shortcut)" />
+            <param name="subset_prob" value="$(arg subset_prob)" />
+            <param name="forward_doubleloop" value="$(arg forward_doubleloop)" />
+            <param name="backward_doubleloop" value="$(arg backward_doubleloop)" />
+            <param name="forward_singleloop" value="$(arg forward_singleloop)" />
+            <param name="progress_file" value="$(arg progress_file)" />
+            <param name="log_interval" value="1" />
+            <param name="seed" value="$(arg seed)" />
+            <param name="vmax" value="$(arg vmax)" />
+            <param name="benchmark" value="$(arg benchmark)" />
+            <param name="fake_move" value="$(arg fake_move)" />
+            <param name="run_policy" value="false" />
+            <param name="start_task_idx" value="$(arg start_task_idx)" />
+            <param name="joint_state_thresh" value="$(arg joint_state_thresh)"/>
+            <param name="print_debug" value="$(arg print_debug)"/>
+            <param name="parallel" value="$(arg parallel)"/>
+            <param name="sync_plan" value="$(arg sync_plan)"/>
+            <param name="sync_exec" value="$(arg sync_exec)"/>
+        </node>
+
+    </group>
+
+
+</launch>

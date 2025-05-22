@@ -1,0 +1,38 @@
+{
+    "1": {
+        "x": 24,
+        "y": 23,
+        "z": 1,
+        "brick_id": 9,
+        "ori": 0,
+        "press_side": 1,
+        "press_offset": 0,
+        "manipulate_type": 0,
+        "press_x": 24,
+        "press_y": 23,
+        "press_z": 2,
+        "press_ori": 0,
+        "support_x": -1,
+        "support_y": -1,
+        "support_z": 0,
+        "support_ori": -1
+    },
+    "2": {
+        "x": 24,
+        "y": 23,
+        "z": 2,
+        "brick_id": 9,
+        "ori": 0,
+        "press_side": 1,
+        "press_offset": 0,
+        "manipulate_type": 0,
+        "press_x": 24,
+        "press_y": 23,
+        "press_z": 3,
+        "press_ori": 0,
+        "support_x": -1,
+        "support_y": -1,
+        "support_z": 0,
+        "support_ori": -1
+    }
+}

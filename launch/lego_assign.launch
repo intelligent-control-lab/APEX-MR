@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Gazebo options -->
+    <arg name="ns" default="/"/>
+    <arg name="use_rviz" default="true"/>
+    <arg name="task" default="tower"/>
+    <arg name="motion_plan_cost" default="false"/>
+    <arg name="check_stability" default="true"/>
+    <arg name="optimize_poses" default="false"/>
+    <arg name="gdb" default="false"/>
+    <arg name="print_debug" default="false"/>
+
+    <env name="LIBGL_ALWAYS_SOFTWARE" value="1"/>
+
+    <group ns="$(arg ns)">
+        <include file="$(find dual_gp4_moveit_config)/launch/demo.launch">
+            <arg name="use_rviz" value="$(arg use_rviz)" />
+        </include>
+
+        <node name="stability_server" pkg="apex_mr" type="stability_node.py" output="screen" required="true"/>
+
+        <node name="milp_node" pkg="apex_mr" type="task_assignment_node.py" output="screen" required="true"/>
+
+        <node launch-prefix="$(eval 'xterm -e gdb --args' if arg ('gdb') else '')"
+             name="lego_assign" pkg="apex_mr" type="lego_assign" output="screen" required="true">
+            <param name="config_fname" value="$(find apex_mr)/config/lego_tasks/user_config.json"/>
+            <param name="task_fname" value="$(find apex_mr)/config/lego_tasks/assembly_tasks/$(arg task).json" />
+            <param name="task_name" value="$(arg task)" />
+            <param name="root_pwd" value="$(find apex_mr)/"/>
+            <param name="output_dir" value="$(find apex_mr)/config/lego_tasks/steps/"/>
+            <param name="group_name_0" value="/left_arm" />
+            <param name="group_name_1" value="/right_arm" />
+            <param name="motion_plan_cost" value="$(arg motion_plan_cost)" />
+            <param name="check_stability" value="$(arg check_stability)" />
+            <param name="optimize_poses" value="$(arg optimize_poses)" />
+            <param name="print_debug" value="$(arg print_debug)" />
+        </node>
+    </group>
+
+</launch>

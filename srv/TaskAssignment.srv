@@ -1,0 +1,5 @@
+string output_dir
+string task_config_path
+string output_fname
+---
+bool feasible
