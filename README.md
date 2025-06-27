@@ -44,7 +44,7 @@ If you are not using the docker file, the following setup has been tested on Ubu
 - [moveit visual tools](http://wiki.ros.org/moveit_visual_tools)
 
 Once you have download ros, and other system deps, under your ```catkin_ws/src```, download the robot model to your workspace
-- [gp4 digital twin](https://github.com/intelligent-control-lab/Robot_Digital_Twin.git) Checkout to the ``apexmr-release`` tag!
+- [gp4 digital twin](https://github.com/intelligent-control-lab/Robot_Digital_Twin/tree/apexmr-release) Checkout to the ``apexmr-release`` tag!
 
 Under the ```catkin_ws/src``` workspace, doanload the code. Then use ```catkin build``` to compile the code.
 
