@@ -23,8 +23,8 @@ This is the code repository  for APEX-MR, our planning and execution framework f
 ### Prerequisites
 **Gurobi (optional):** 
   If you would like to search over all possible LEGO grasp/support poses (i.e. $P = 28$), you need 
-  a [Gurobi license](https://www.gurobi.com/downloads/) for stability estimation. Academics may request a free license from the
-  Gurobi website [here](https://www.gurobi.com/academia/academic-program-and-licenses/); after obtaining the license,
+  a [Gurobi WLS license](https://support.gurobi.com/hc/en-us/articles/13232844297489-How-do-I-set-up-a-Web-License-Service-WLS-license) for stability estimation. Academics may request a free license from the
+  Gurobi website [here](https://www.gurobi.com/features/academic-wls-license/); after obtaining the license,
   place it in your *home directory* or
   another [recommended location](https://support.gurobi.com/hc/en-us/articles/360013417211-Where-do-I-place-the-Gurobi-license-file-gurobi-lic).
     - If you do not have access to Gurobi, you can still run the code with the default LEGO grasp poses (i.e. $P = 1$) computed by our automated assembly sequence planner
@@ -70,6 +70,15 @@ You should see a lego planning success
 
 Target LEGO assembly are specified under ```config/lego_tasks/assembly_tasks```. <br>
 Description of the LEGO assembly plate are specified under ```config/env_setup/assembly_tasks```
+
+### Visualizing in Gazebo
+By default, APEX-MR uses the fake hardware in Moveit for collision checks and Rviz for visualization. Optinoally it is also possible to visualize the Lego assembly environment in Gazebo.
+
+To use Gazebo, first launch the simulator
+```
+roslaunch robot_digital_twin dual_gp4.launch 
+```
+This may take some time. Then run the motion planning command earlier and wait for the TPG to be generated. Once the TPG is computed, the robots should be both in Rviz and Gazebo at the same time.
 
 ### Running the experiments in paper
 We provide a script to run all 9 LEGO assemblies from the paper in simulation
