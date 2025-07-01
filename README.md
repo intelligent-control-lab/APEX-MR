@@ -91,10 +91,10 @@ Note that the exact results may be slightly different from the numbers reported 
 
 ## Core Documentation
 
-1. **[Configuration and Input Files](01-configuration.md)** - JSON configuration system for tasks, environments, and robot properties
-2. **[Task Assignment and Integer Linear Programming](02-task-assignment.md)** - How `lego_assign` performs optimal task allocation
-3. **[Motion Planning and TPG Construction](03-motion-planning.md)** - How `lego_node` builds Temporal Plan Graphss
-4. **[Task Execution Framework](04-execution.md)** - Lego policies and asynchronous coordination
+1. **[Configuration and Input Files](docs/01-configuration.md)** - JSON configuration system for tasks, environments, and robot properties
+2. **[Task Assignment and Integer Linear Programming](docs/02-task-assignment.md)** - How `lego_assign` performs  task allocation
+3. **[Motion Planning and TPG Construction](docs/03-motion-planning.md)** - How `lego_node` builds Temporal Plan Graphs
+4. **[Execution Framework](docs/04-execution.md)** - Lego policies and asynchronous coordination
 
 ## System Overview
 
