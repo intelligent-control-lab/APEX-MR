@@ -1,3 +1,22 @@
+/**
+ * @file task.h
+ * @brief Assembly task and activity definitions for LEGO construction
+ * 
+ * This file defines the structure of assembly tasks, individual manipulation activities,
+ * and their relationships. It provides the fundamental data structures for representing
+ * LEGO assembly operations and their dependencies.
+ * 
+ * Key concepts:
+ * - Activity types specific to LEGO assembly (pick, place, support, etc.)
+ * - Task dependency modeling for assembly constraints
+ * - Object state management during manipulation
+ * - Activity graph construction and traversal
+ * - Serialization support for task persistence
+ * 
+ * @author Philip Huang
+ * @date 2025
+ */
+
 #ifndef APEX_MR_TASK_H
 #define APEX_MR_TASK_H
 

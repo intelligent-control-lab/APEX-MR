@@ -1,0 +1,168 @@
+# Configuration and Input Files
+
+This document describes the JSON configuration system that defines assembly tasks, robot environments, calibration parameters, and object placements for APEX-MR.
+
+## Overview
+
+APEX-MR uses a hierarchical configuration system organized in the `config/lego_tasks/` directory:
+
+```
+config/lego_tasks/
+├── assembly_tasks/     # Task descriptions (target assemblies)
+├── env_setup/         # Initial object placements  
+├── robot_properties/  # Robot kinematics and calibration
+├── steps/            # Output from task assignment (generated)
+├── lego_library.json # LEGO brick definitions
+├── plate_calibration.json # Assembly plate calibration
+└── user_config.json  # User preferences
+```
+
+## Assembly Task Definitions
+
+**Location**: `config/lego_tasks/assembly_tasks/`
+
+These JSON files define the target LEGO assembly structure. Each file describes where each brick should be placed in the final assembly.
+
+### Format Example (`cliff.json`)
+
+```json
+{
+    "1": {
+        "x": 24,                    # Target X position on assembly plate
+        "y": 28,                    # Target Y position on assembly plate  
+        "z": 1,                     # Target Z level (layer)
+        "brick_id": 2,              # LEGO brick type ID
+        "ori": 0,                   # Orientation (0, 90, 180, 270 degrees)
+        "press_side": 1,            # Which side to press during assembly
+        "press_offset": 1,          # Offset for pressing motion
+        "manipulate_type": 0,       # Assembly manipulation type
+        "press_x": 24,              # Press position X coordinate
+        "press_y": 29,              # Press position Y coordinate
+        "press_z": 2,               # Press position Z coordinate
+        "press_ori": 0,             # Press orientation
+        "support_x": -1,            # Support position X (-1 = no support)
+        "support_y": -1,            # Support position Y
+        "support_z": 0,             # Support position Z
+        "support_ori": -1,          # Support orientation
+        "brick_seq": 1              # Assembly sequence number
+    },
+    "2": { ... }
+}
+```
+
+### Key Fields
+
+- **Position**: `(x, y, z)` defines the final position in the assembly coordinate frame
+- **Brick Type**: `brick_id` references entries in `lego_library.json`
+- **Assembly Strategy**: `press_*` and `support_*` fields define how the brick should be assembled
+- **Constraints**: `manipulate_type` specifies assembly constraints (e.g., requires handover/place-up if manipulate_type = 1)
+
+## Environment Setup
+
+**Location**: `config/lego_tasks/env_setup/`
+
+These files define the initial placement of LEGO bricks in the workspace before assembly begins.
+
+### Format Example (`env_setup_cliff.json`)
+
+```json
+{
+    "b2_1": {
+        "x": 0,        # Initial X position on storage plate
+        "y": 0,        # Initial Y position on storage plate
+        "z": 1,        # Initial Z level
+        "ori": 0       # Initial orientation
+    },
+    "b2_2": {
+        "x": 4,
+        "y": 0,
+        "z": 1,
+        "ori": 0
+    }
+}
+```
+
+### Naming Convention
+
+- `b{brick_id}_{brick_seq}`: Brick identifiers 
+- Positions are relative to the storage plate coordinate frame
+
+## Robot Properties and Calibration
+
+**Location**: `config/lego_tasks/robot_properties/`
+
+Contains robot kinematics and calibration data:
+
+### Denavit-Hartenberg Parameters
+
+- `gp4_DH.txt`: Base robot kinematics
+- `gp4_tool_*_DH.txt`: Tool-specific kinematics for different operations
+  - `assemble`: Assembly operations
+  - `disassemble`: Disassembly operations  
+  - `handover`: Handover operations
+  - `alt`: Alternative tool configurations for place up
+
+### Base Transformations
+
+- `gp4_base.txt`, `r1_base.txt`, `r2_base.txt`: Robot base transformations
+- `world_base.txt`: World coordinate frame definition
+
+## Plate Calibration
+
+**Location**: `config/lego_tasks/plate_calibration.json`
+
+Defines the transformation between robot coordinate frames and LEGO assembly plates:
+
+```json
+{
+    "assemble_plate": {
+        "x": 0.40892671825921423,     # Translation X (meters)
+        "y": 0.04573602346210516,     # Translation Y (meters)  
+        "z": 0.1899,                  # Translation Z (meters)
+        "roll": 0,                    # Rotation around X (radians)
+        "pitch": 0,                   # Rotation around Y (radians)
+        "yaw": 0.013861205182119135,  # Rotation around Z (radians)
+        "deg": 0.7941885559002921,    # Alternative angle representation
+        "width": 48,                  # Plate width (LEGO units)
+        "height": 48                  # Plate height (LEGO units)
+    },
+    "storage_plate": { ... }
+}
+```
+
+## LEGO Library
+
+**Location**: `config/lego_tasks/lego_library.json`
+
+Defines physical properties of LEGO brick types:
+
+
+## Task Assignment Output
+
+**Location**: `config/lego_tasks/steps/` (Generated by `lego_assign`)
+
+After task assignment, two types of files are generated:
+
+### Sequence Assignment (`*_seq.json`)
+
+Enhanced assembly task with robot assignments:
+
+```json
+{
+    "1": {
+        "x": 24, "y": 28, "z": 1,    # Same as input task
+        "brick_id": 2, "ori": 0,
+        // ... other fields from assembly task ...
+        "robot_id": 1,               # Assigned robot (0 or 1)
+        "sup_robot_id": 0,           # Supporting robot (if needed)
+        "brick_seq": 3               # Assigned brick sequence
+    }
+}
+```
+
+### Motion Waypoints (`*_steps.csv`)
+
+Detailed motion trajectories for each robot:
+
+
+Next: [Task Assignment and Integer Linear Programming](02-task-assignment.md)

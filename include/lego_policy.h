@@ -1,3 +1,18 @@
+/**
+ * @file lego_policy.h
+ * @brief LEGO assembly manipulation policies with force control
+ * 
+ * This file implements high-level manipulation primitives specifically designed for
+ * LEGO assembly operations. It provides force-controlled picking, placing, and support
+ * operations that integrate with force/torque sensing for robust manipulation.
+ * 
+ * Key capabilities:
+ * - Force-controlled manipulation primitives (pick, place, support, handover, placeup)
+ * - Integration with MFI robot hardware interfaces
+ * 
+ * @author Philip Huang
+ */
+
 #ifndef APEX_MR_LEGO_POLICY_H
 #define APEX_MR_LEGO_POLICY_H
 

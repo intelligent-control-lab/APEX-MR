@@ -1,3 +1,23 @@
+/**
+ * @file instance.h
+ * @brief Abstract planning interface and collision environment management
+ * 
+ * This file provides a unified interface for motion planning across different robot
+ * configurations and planning frameworks. It manages dynamic collision environments
+ * during multi-robot assembly planning and provides abstractions for different
+ * robot hardware interfaces.
+ * 
+ * Key responsibilities:
+ * - Robot model management and configuration
+ * - Dynamic collision environment updates during assembly
+ * - Planning scene synchronization across multiple robots
+ * - Hardware abstraction for different robot types
+ * - Object attachment and detachment tracking
+ * 
+ * @author Philip Huang
+ * @date 2025
+ */
+
 #ifndef APEX_MR_INSTANCE_H
 #define APEX_MR_INSTANCE_H
 

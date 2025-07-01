@@ -1,3 +1,21 @@
+/**
+ * @file tpg.h
+ * @brief Temporal Plan Graphs implementation for asynchronous multi-robot coordination
+ * 
+ * This file implements the core Temporal Plan Graphs (TPG) algorithms
+ * from the APEX-MR paper. The TPG enables asynchronous execution of multi-robot assembly
+ * tasks while maintaining temporal constraints and safety requirements.
+ * 
+ * Key features:
+ * - Temporal constraint representation and enforcement
+ * - Shortcutting algorithms for makespan optimization
+ * - Serialization for offline planning and online execution
+ * - Integration with execution policies and hardware interfaces
+ * 
+ * @author Philip Huang
+ * @date 2025
+ */
+
 #ifndef APEX_MR_EXECUTION_H
 #define APEX_MR_EXECUTION_H
 

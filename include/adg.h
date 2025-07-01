@@ -1,3 +1,14 @@
+/**
+ * @file adg.h
+ * @brief multi-modalTPG construction and shortcutting algorithms for TPG optimization
+ * 
+ * This file implements the multi-modal TPG framework from the APEX-MR paper 
+ *
+ * 
+ * @author Philip Huang
+ * @date 2025
+ */
+
 #ifndef APEX_MR_ADG_H
 #define APEX_MR_ADG_H
 
