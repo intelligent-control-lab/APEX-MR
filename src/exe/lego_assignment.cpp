@@ -43,10 +43,11 @@ public:
                 bool motion_plan_cost,
                 bool check_stability,
                 bool optimize_poses,
+                bool optimize_brickseq,
                 bool print_debug) : 
         output_dir_(output_dir), group_names_(group_names), eof_names_(eof_names), task_name_(task_name), 
             motion_plan_cost_(motion_plan_cost), check_stability_(check_stability), optimize_poses_(optimize_poses),
-            print_debug_(print_debug) {
+            optimize_brickseq_(optimize_brickseq), print_debug_(print_debug) {
         robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
         robot_model_ = robot_model_loader.getModel();
         move_group_ = std::make_shared<moveit::planning_interface::MoveGroupInterface>(PLANNING_GROUP);
@@ -106,7 +107,9 @@ public:
         std::ifstream task_file(task_fname_, std::ifstream::binary);
         task_file >> task_json_;
         num_tasks_ = task_json_.size();
-        remove_brick_seq();
+        if (optimize_brickseq_) {
+            remove_brick_seq();
+        }
 
         std::string world_base_fname = root_pwd + config["world_base_fname"].asString();
 
@@ -668,7 +671,11 @@ public:
             int manip_type = 0;
             if (cur_graph_node["manipulate_type"].isInt()) {
                 manip_type = cur_graph_node["manipulate_type"].asInt();
-            } 
+            }
+            int brick_seq_provided = -1;
+            if (cur_graph_node["brick_seq"].isInt()) {
+                brick_seq_provided = cur_graph_node["brick_seq"].asInt();
+            }
 
             // update world grid
             world_grid_ = lego_ptr_->gen_world_grid_from_graph(task_json_, i, 48, 48, 48);
@@ -691,7 +698,9 @@ public:
             
             if (r1_press_poses.size() == 0 && r2_press_poses.size() == 0) {
                 log("No press sides found for task with either robot " + std::to_string(task_idx), LogLevel::ERROR);
-                ros::Duration(30).sleep();
+                if (print_debug_) {
+                    ros::Duration(30).sleep();
+                }
                 continue;
             }
 
@@ -721,6 +730,25 @@ public:
                         delta_matrix[i][t] = 1;
                     }
                     else {
+                        continue;
+                    }
+
+                    // get brick_seq from brick_name
+                    int brick_seq = -1;
+                    
+                    // extract sequence after '_' in brick_name (strip any extension) and store it in the task JSON
+                    size_t pos = brick_name.find('_');
+                    if (pos != std::string::npos && pos + 1 < brick_name.size()) {
+                        std::string brick_seq_str = brick_name.substr(pos + 1);
+                        brick_seq = std::stoi(brick_seq_str);
+                    } else {
+                        log("Could not parse brick_seq from " + brick_name + " for task " + std::to_string(task_idx), LogLevel::WARN);
+                    }
+                    
+                    // if we specify brick_seq, then only allow that particular brick to be picked
+                    if (!optimize_brickseq_ && (brick_seq_provided != -1) && (brick_seq != brick_seq_provided)) {
+                        delta_matrix[i][t] = 0;
+                        log("skipping brick " + std::to_string(brick_name) + " for task " + std::to_string(task_idx), LogLevel::DEBUG);
                         continue;
                     }
 
@@ -786,6 +814,25 @@ public:
                         continue;
                     }
 
+                    // get brick_seq from brick_name
+                    int brick_seq = -1;
+                    
+                    // extract sequence after '_' in brick_name (strip any extension) and store it in the task JSON
+                    size_t pos = brick_name.find('_');
+                    if (pos != std::string::npos && pos + 1 < brick_name.size()) {
+                        std::string brick_seq_str = brick_name.substr(pos + 1);
+                        brick_seq = std::stoi(brick_seq_str);
+                    } else {
+                        log("Could not parse brick_seq from " + brick_name + " for task " + std::to_string(task_idx), LogLevel::WARN);
+                    }
+
+                    // if we specify brick_seq, then only allow that particular brick to be picked
+                    if (!optimize_brickseq_ && (brick_seq_provided != -1) && (brick_seq != brick_seq_provided)) {
+                        delta_matrix[i][t] = 0;
+                        log("skipping brick " + std::to_string(brick_name) + " for task " + std::to_string(task_idx), LogLevel::DEBUG);
+                        continue;
+                    }
+
                     if (manip_type == 0) {
                         if (lego_r2_reachable[t][g]) {
                             cost_matrix_b[i][t][g] = cost_pick_r2[t][g] + cost_place_r2;
@@ -838,7 +885,9 @@ public:
             }
             if (min_cost > 999999.9 || (!r1_feasible && !r2_feasible)) {
                 log("No feasible solution found for task " + std::to_string(task_idx), LogLevel::ERROR);
-                ros::Duration(30).sleep();
+                if (print_debug_) {
+                    ros::Duration(30).sleep();
+                }
             }
 
 
@@ -1120,7 +1169,7 @@ public:
             down_T = cart_T * down_T;
             calculateIKforLego(down_T, r_place_tilt_down, robot_id, 3, false, r_place_down, reachable);
         }
-        
+
         if (reachable) {
             // place up
             calculateIKforLego(cart_T, r_place_down, robot_id, 3, true, r_place_up, reachable);
@@ -1140,7 +1189,7 @@ public:
             cart_T = cart_T * twist_T;
             calculateIKforLego(cart_T, r_place_up, robot_id, 4, true, r_twist, reachable);
         }
-
+        
         if (reachable) {
             // place twist down
             if (robot_id == 0) {
@@ -1258,13 +1307,13 @@ public:
                     else {
                         reachable = calculatePlacePoses(brick_name, cur_graph_node, press_pt_x, press_pt_y, press_pt_z-1, press_ori, press_side, attack_dir, task_idx, robot_id, goal);
                     }
-                        // compute stability
+                    // compute stability
                     if (reachable) {
                         if (manip_type == 0) {
-                            bool sup_needed = checkSupportNeeded(cur_graph_node, press_side, press_offset, task_idx);
-                            int press_side_score = (sup_needed) ? 0 : 100;
-                            // press_side_score += checkPressSideStability(cur_graph_node, press_side, task_idx);
-                            stability.push_back(press_side_score);
+                        bool sup_needed = checkSupportNeeded(cur_graph_node, press_side, press_offset, task_idx);
+                        int press_side_score = (sup_needed) ? 0 : 100;
+                        // press_side_score += checkPressSideStability(cur_graph_node, press_side, task_idx);
+                        stability.push_back(press_side_score);
                         }
                         else {
                             stability.push_back(0);
@@ -1560,71 +1609,71 @@ public:
                 vec<int> dys = {0, 1, -1}; // Y offset for the support tool
                 vec<int> support_oris = {0, 1, 2, 3}; // Orientation of the support tool
 
-                for (int dx : dxs) {
-                    for (int dy : dys) {
+            for (int dx : dxs) {
+                for (int dy : dys) {
                         for (int support_ori_tool : support_oris) {
                             // dz is downwards offset to find the Z coordinate for the EE's tip
                             
                             for (int dz_ee = 2; dz_ee <= 4; dz_ee++) { // dz_ee defines how far below press_pt_z the EE tip is
-                                int support_x = press_pt_x + dx;
-                                int support_y = press_pt_y + dy;
+                            int support_x = press_pt_x + dx;
+                            int support_y = press_pt_y + dy;
                                 int support_z = press_pt_z - 1 - dz_ee; // Z-coordinate of the EE tip
 
-                                if (support_z < 0 || support_z >= world_grid_[0][0].size() ||
-                                    support_x < 0 || support_x >= world_grid_.size() ||
-                                    support_y < 0 || support_y >= world_grid_[0].size()) {
-                                    continue;
-                                }
+                            if (support_z < 0 || support_z >= world_grid_[0][0].size() ||
+                                support_x < 0 || support_x >= world_grid_.size() ||
+                                support_y < 0 || support_y >= world_grid_[0].size()) {
+                                continue;
+                            }
 
                                 // Condition for valid EE support placement:
                                 if (support_z == 0 || !world_grid_[support_x][support_y][support_z-1].empty()) { // E E tip cell must be empty
                                     continue;
                                 }
                                 if (world_grid_[support_x][support_y][support_z].empty()) { // Cell above EE tip must be occupied 
-                                    continue;
-                                }
+                                continue;
+                            }
 
-                                std::vector<std::string> side_bricks, above_bricks;
+                            std::vector<std::string> side_bricks, above_bricks;
                                 int sup_press_side_for_ee, sup_brick_ori_for_ee_shape;
                                 lego_ptr_->get_sup_side_ori(support_ori_tool, sup_press_side_for_ee, sup_brick_ori_for_ee_shape);
                                 // Get bricks next to and above the EE's intended position
                                 lego_ptr_->get_lego_next(support_x, support_y, support_z, sup_press_side_for_ee, sup_brick_ori_for_ee_shape, 9, "support_brick", world_grid_, side_bricks);
                                 lego_ptr_->get_lego_above(support_x, support_y, support_z, sup_brick_ori_for_ee_shape, 9, world_grid_, above_bricks);
-
+                            
                                 for (auto & above_brick : above_bricks) setCollision(above_brick, eof_names_[robot_id], true);
                                 for (auto & side_brick : side_bricks) setCollision(side_brick, eof_names_[robot_id], true);
 
-                                Eigen::Matrix4d sup_T = Eigen::MatrixXd::Identity(4, 4);
+                            Eigen::Matrix4d sup_T = Eigen::MatrixXd::Identity(4, 4);
                                 lego_ptr_->support_pose(support_x, support_y, support_z, support_ori_tool, sup_T);
-                                log("Checking reachability for task: " + std::to_string(task_idx) + " at sup_x "
+                            log("Checking reachability for task: " + std::to_string(task_idx) + " at sup_x " 
                                     + std::to_string(support_x) + " sup_y " + std::to_string(support_y) + " sup_z_ee_tip " + std::to_string(support_z)
                                     + " sup_ori_tool " + std::to_string(support_ori_tool), LogLevel::DEBUG);
-
-                                bool reachable = true;
-                                calculateIKforLego(sup_T, init_q, robot_id, 0, true, r_sup_goal[1], reachable);
+                            
+                            bool reachable = true;
+                            calculateIKforLego(sup_T, init_q, robot_id, 0, true, r_sup_goal[1], reachable);
 
                                 for (auto & above_brick : above_bricks) setCollision(above_brick, eof_names_[robot_id], false);
                                 for (auto & side_brick : side_bricks) setCollision(side_brick, eof_names_[robot_id], false);
 
-                                if (reachable) {
-                                    log("Checking stability for task: " + std::to_string(task_idx) + " at sup_x "
+                            if (reachable) {
+                                log("Checking stability for task: " + std::to_string(task_idx) + " at sup_x " 
                                         + std::to_string(support_x) + " sup_y " + std::to_string(support_y) + " sup_z_contact " + std::to_string(support_z - 1)
                                         + " sup_ori_tool " + std::to_string(support_ori_tool), LogLevel::DEBUG);
                                     // Stability check uses the Z of the contact point on the structure
                                     bool stable = checkStability(press_pt_x, press_pt_y, press_pt_z, true, support_x, support_y, support_z - 1, press_ori, task_idx);
-                                    if (stable) {
-                                        log("Found stable support pose for task: " + std::to_string(task_idx) + " at sup_x "
+                                if (stable) {
+                                    log("Found stable support pose for task: " + std::to_string(task_idx) + " at sup_x " 
                                             + std::to_string(support_x) + " sup_y " + std::to_string(support_y) + " sup_z_ee_tip " + std::to_string(support_z)
                                             + " sup_ori_tool " + std::to_string(support_ori_tool), LogLevel::INFO);
                                         
                                         Eigen::Matrix4d sup_T_down = sup_T;
                                         sup_T_down(2, 3) += sup_down_offset; // sup_down_offset is typically negative (e.g., -0.001)
                                                                             
-                                        calculateIKforLego(sup_T_down, r_sup_goal[1], robot_id, 0, true, r_sup_goal[0], reachable);
+                                    calculateIKforLego(sup_T_down, r_sup_goal[1], robot_id, 0, true, r_sup_goal[0], reachable);
 
-                                        if (reachable) {
-                                            log("Found stable support pre pose for task " + std::to_string(task_idx) + " sup robot " + std::to_string(robot_id+1), LogLevel::DEBUG);
-                                            return true;
+                                    if (reachable) {
+                                        log("Found stable support pre pose for task " + std::to_string(task_idx) + " sup robot " + std::to_string(robot_id+1), LogLevel::DEBUG);
+                                        return true;
                                         } else {
                                             log("No nearby pre-support pose found for task " + std::to_string(task_idx) + " sup robot " + std::to_string(robot_id+1)
                                                 + " for sup_x " + std::to_string(support_x) + " sup_y " + std::to_string(support_y) + " sup_z_ee_tip " + std::to_string(support_z)
@@ -1654,7 +1703,7 @@ public:
                                 brick_to_press_x < 0 || brick_to_press_x >= world_grid_.size() ||
                                 brick_to_press_y < 0 || brick_to_press_y >= world_grid_[0].size()) {
                                 continue;
-                            }
+                                    }
                             if (!world_grid_[brick_to_press_x][brick_to_press_y][brick_to_press_z-1].empty() // EE tip must be empty
                                 || world_grid_[brick_to_press_x][brick_to_press_y][brick_to_press_z-2].empty()) { // Must be a brick to press one level below
                                 continue;
@@ -1722,8 +1771,8 @@ public:
                                             + std::to_string(brick_to_press_x) + "," + std::to_string(brick_to_press_y) + "," + std::to_string(brick_to_press_z) + ")"
                                             + " with press_action_ori " + std::to_string(press_action_ori), LogLevel::INFO);
                                         return true;
-                                    }
-                                }
+            }
+        }
                             } // end press_action_ori
                         } // end dz_b_offset
                     } // end dy_b
@@ -2260,6 +2309,7 @@ private:
     bool check_stability_;
     bool print_debug_;
     bool optimize_poses_;
+    bool optimize_brickseq_;
     bool IK_status_;
 
     // lego poses computed during cost matrix
@@ -2292,9 +2342,9 @@ int main(int argc, char** argv) {
 
     // Read ROS Params
     std::string config_fname, task_fname, root_pwd, output_dir, task_name;
-    bool motion_plan_cost, check_stability, optimize_poses;
+    bool motion_plan_cost, check_stability, optimize_poses, optimize_brickseq;
     bool print_debug;
-
+    
     std::vector<std::string> group_names = {"left_arm", "right_arm"};
     for (int i = 0; i < 2; i++) {
         if (nh.hasParam("group_name_" + std::to_string(i))) {
@@ -2312,6 +2362,7 @@ int main(int argc, char** argv) {
     nh.param<bool>("check_stability", check_stability, true);
     nh.param<bool>("print_debug", print_debug, false);
     nh.param<bool>("optimize_poses", optimize_poses, true);
+    nh.param<bool>("optimize_brickseq", optimize_brickseq, true);
     
     // Initialize the Dual Arm Planner
     if (print_debug) {
@@ -2322,7 +2373,7 @@ int main(int argc, char** argv) {
     }
 
     TaskAssignment planner(output_dir, task_name, group_names, eof_links, motion_plan_cost, 
-        check_stability, optimize_poses, print_debug);
+        check_stability, optimize_poses, optimize_brickseq, print_debug);
 
     ROS_INFO("Setting up the Lego Factory");
 

@@ -9,6 +9,7 @@
     <arg name="optimize_poses" default="false"/>
     <arg name="gdb" default="false"/>
     <arg name="print_debug" default="false"/>
+    <arg name="optimize_brickseq" default="true"/>
 
     <env name="LIBGL_ALWAYS_SOFTWARE" value="1"/>
 
@@ -34,6 +35,7 @@
             <param name="check_stability" value="$(arg check_stability)" />
             <param name="optimize_poses" value="$(arg optimize_poses)" />
             <param name="print_debug" value="$(arg print_debug)" />
+            <param name="optimize_brickseq" value="$(arg optimize_brickseq)" />
         </node>
     </group>
 

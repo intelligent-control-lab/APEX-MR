@@ -117,6 +117,7 @@ roslaunch apex_mr lego_assign.launch task:=cliff
 Parameters:
 - `task`: Task name (e.g., cliff, faucet, fish_high)
 - `optimize_poses`: Enable pose optimization (default: false)
+- `optimize_brickseq`: Optimize brick assignment for each task (default: true)
 - `check_stability`: Enable Gurobi stability analysis (default: true)
 - `motion_plan_cost`: Include motion planning in optimization (default: false)
 
