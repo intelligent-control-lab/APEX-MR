@@ -748,7 +748,7 @@ public:
                     // if we specify brick_seq, then only allow that particular brick to be picked
                     if (!optimize_brickseq_ && (brick_seq_provided != -1) && (brick_seq != brick_seq_provided)) {
                         delta_matrix[i][t] = 0;
-                        log("skipping brick " + std::to_string(brick_name) + " for task " + std::to_string(task_idx), LogLevel::DEBUG);
+                        log("skipping brick " + brick_name + " for task " + std::to_string(task_idx), LogLevel::DEBUG);
                         continue;
                     }
 
@@ -829,7 +829,7 @@ public:
                     // if we specify brick_seq, then only allow that particular brick to be picked
                     if (!optimize_brickseq_ && (brick_seq_provided != -1) && (brick_seq != brick_seq_provided)) {
                         delta_matrix[i][t] = 0;
-                        log("skipping brick " + std::to_string(brick_name) + " for task " + std::to_string(task_idx), LogLevel::DEBUG);
+                        log("skipping brick " + brick_name + " for task " + std::to_string(task_idx), LogLevel::DEBUG);
                         continue;
                     }
 
