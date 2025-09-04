@@ -30,23 +30,23 @@ This is the code repository  for APEX-MR, our planning and execution framework f
     - If you do not have access to Gurobi, you can still run the code with the default LEGO grasp poses (i.e. $P = 1$) computed by our automated assembly sequence planner
 
 ### Docker Installation
-Build the docker image and run it inside docker
+Build the Docker image and run it inside Docker
 ```
 cd docker && bash build.sh
 ```
 
-### Native Installtaion with ROS
-If you are not using the docker file, the following setup has been tested on Ubuntu 20.04 with ROS Noetic. You may need to install some system dependencies
+### Native Installation with ROS
+If you are not using the Docker file, the following setup has been tested on Ubuntu 20.04 with ROS Noetic. You may need to install some system dependencies
 - [ROS Noetic](http://wiki.ros.org/noetic/Installation/Ubuntu)
 - [moveit](https://moveit.ai/install/)
 - [catkin tools](https://catkin-tools.readthedocs.io/en/latest/)
 - [rviz tools](http://wiki.ros.org/rviz_visual_tools)
 - [moveit visual tools](http://wiki.ros.org/moveit_visual_tools)
 
-Once you have download ros, and other system deps, under your ```catkin_ws/src```, download the robot model to your workspace
+Once you have downloaded ROS, and other system dependencies, under your ```catkin_ws/src```, download the robot model to your workspace
 - [gp4 digital twin](https://github.com/intelligent-control-lab/Robot_Digital_Twin/tree/apexmr-release) Checkout to the ``apexmr-release`` tag!
 
-Under the ```catkin_ws/src``` workspace, doanload the code. Then use ```catkin build``` to compile the code.
+Under the ```catkin_ws/src``` workspace, download this repo. Then use ```catkin build``` to compile.
 
 ## Run APEX-MR
 ### Task Planning
@@ -57,30 +57,30 @@ roslaunch apex_mr lego_assign.launch task:=cliff
 You should see a message saying lego assignment success.
 
 ### Motion Planning and TPG construction
-To compute the motion plan for lego assembly and build the corresponding TPG for asynchronous execution, run
+To compute the motion plan for LEGO assembly and build the corresponding TPG for asynchronous execution, run
 ```
 roslaunch apex_mr lego.launch task:=cliff
 ```
-You should see a lego planning success
+You should see a LEGO planning success
 #### Planning params
 ```vmax:=X``` to set maximum velocity scale, default ```X = 1``` <br>
 ```adg_shortcut_time:=X``` to set the time for TPG shortcutting, default ```X = 1s``` <br>
 ```sync_plan:=true``` to run the sync planning baseline <br>
 ```sync_shortcut_time:=X``` to set the time for RRT-Connect,shortcutting, default ```X = 0.1s``` <br>
 
-Target LEGO assembly are specified under ```config/lego_tasks/assembly_tasks```. <br>
-Description of the LEGO assembly plate are specified under ```config/env_setup/assembly_tasks```
+Target LEGO assembly is specified under ```config/lego_tasks/assembly_tasks```. <br>
+Description of the LEGO assembly plate is specified under ```config/env_setup/assembly_tasks```
 
 ### Visualizing in Gazebo
-By default, APEX-MR uses the fake hardware in Moveit for collision checks and Rviz for visualization. Optinoally it is also possible to visualize the Lego assembly environment in Gazebo.
+By default, APEX-MR uses the fake hardware in Moveit for collision checks and Rviz for visualization. Optionally, it is also possible to visualize the LEGO assembly environment in Gazebo.
 
 To use Gazebo, first launch the simulator
 ```
 roslaunch robot_digital_twin dual_gp4.launch 
 ```
-This may take some time. Then run the motion planning command earlier and wait for the TPG to be generated. Once the TPG is computed, the robots should be both in Rviz and Gazebo at the same time.
+This may take some time. Then you can run the motion planning command earlier and wait for the TPG to be generated. Once the TPG is computed, the robots should be displayed in both Rviz and Gazebo at the same time.
 
-### Running the experiments in paper
+### Running the experiments in the paper
 We provide a script to run all 9 LEGO assemblies from the paper in simulation
 ```
 python3 scripts.py/benchmark.py
@@ -91,10 +91,10 @@ Note that the exact results may be slightly different from the numbers reported 
 
 ## Core Documentation
 
-1. **[Configuration and Input Files](01-configuration.md)** - JSON configuration system for tasks, environments, and robot properties
-2. **[Task Assignment and Integer Linear Programming](02-task-assignment.md)** - How `lego_assign` performs optimal task allocation
-3. **[Motion Planning and TPG Construction](03-motion-planning.md)** - How `lego_node` builds Temporal Plan Graphss
-4. **[Task Execution Framework](04-execution.md)** - Lego policies and asynchronous coordination
+1. **[Configuration and Input Files](docs/01-configuration.md)** - JSON configuration system for tasks, environments, and robot properties
+2. **[Task Assignment and Integer Linear Programming](docs/02-task-assignment.md)** - How `lego_assign` performs  task allocation
+3. **[Motion Planning and TPG Construction](docs/03-motion-planning.md)** - How `lego_node` builds Temporal Plan Graphs
+4. **[Execution Framework](docs/04-execution.md)** - Lego policies and asynchronous coordination
 
 ## System Overview
 
@@ -103,7 +103,7 @@ APEX-MR implements a complete pipeline for multi-robot cooperative assembly:
 1. **Input Processing**: Task descriptions, environment setup, and robot calibration from JSON files
 2. **Task Assignment**: Integer Linear Programming to optimally assign assembly steps to robots
 3. **Motion Planning**: Sequential motion planning with collision avoidance and temporal constraints
-4. **TPG Construction**: Building Temporal Plan Graphss for asynchronous execution
+4. **TPG Construction**: Building Temporal Plan Graphs for asynchronous execution
 5. **Execution**: Real-time coordination using motion policies and force feedback
 
 
