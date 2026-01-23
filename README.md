@@ -18,6 +18,12 @@ RSS 2025
 ---
 This is the code repository  for APEX-MR, our planning and execution framework for dual-arm LEGO assembly.
 
+## Important Update
+We have released VAMP-MR, a new set of accelerated multi-robot-arm planners based on CPU SIMD acceleration.
+The new version improves dual-arm LEGO assembly planning time by **6x** on average, improves overall makespan by **1.37x** on average, and does not have any ROS dependencies.
+
+Please check it out on our new [codebase](https://github.com/vamp-mr/vamp-mr) and [website](https://vamp-mr.github.io/vamp-mr)! 
+
 ## Installation
 
 ### Prerequisites
